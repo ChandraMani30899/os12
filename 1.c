@@ -6,9 +6,12 @@ struct info
 	float arival_time,waiting_time,burst_time,turn_around_time,order;
 	
 };
+
+//======================first come first surve=========================================================================================
+
 void fcfs(int n)
-{
-	struct info process[n];
+{    
+  struct info process[n];
   struct info temp;
   int i,j;
   float TotalTurnAroundTime,TotalBurstTime;
@@ -69,10 +72,48 @@ struct info temp;
 
 	return min;
 }
+
+
 void sjf(int n,int l)
 {
-	
+  struct info process[n];
+  struct info process2[n];
+  struct info temp;
+  int i,j,k;
+  float TotalTurnAroundTime,TotalBurstTime;
+  for(i=0;i<n;i++)
+  { 
+    process[i].order=i+1;
+   	process[i].arival_time=0;
+    printf("\n Enter the Burst Time for Process %d :",i+1);
+    fflush(stdin);
+    scanf("%f",&process[i].burst_time);
+  }
+  printf("\n %.2f",process[0].burst_time);
+  for(j=1;j<n;j++)
+for(i=0;i<n-1;i++)
+{
+  	if(process[i].burst_time>process[i+1].burst_time)
+  	            { temp=process[i];
+  	              process[i]=process[i+1];
+  	              process[i+1]=temp;
+				}
+                  
 }
+  process[0].waiting_time=l;
+  process[0].turn_around_time=process[0].burst_time+process[0].waiting_time;
+  TotalBurstTime=process[0].burst_time;
+  TotalTurnAroundTime=process[0].turn_around_time;
+  for(i=1;i<n;i++)
+  {
+  	process[i].waiting_time=TotalBurstTime-process[i].arival_time;
+  	process[i].turn_around_time=process[i].burst_time+process[i].waiting_time;
+  	TotalBurstTime+=process[i].burst_time;
+  	TotalTurnAroundTime+=process[i].turn_around_time;
+  }
+printf("\n Average Turn Around Time is :%.2f",TotalTurnAroundTime/n);
+}
+//============================End======================================================================================================
 int main()
 {
 int n,N;
